@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FairShare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="book">
+
+  <section class="cover">
+    <img id="brandMark" class="brand-mark" src="{{ url_for('static', filename='images/logo.png') }}" alt="" onerror="this.style.display='none'">
+    <p class="cover-kicker">GROUP CONTRIBUTION LEDGER</p>
+    <h1 class="cover-title">FairShare</h1>
+    <div class="cover-grid">
+      <div class="cover-field">
+        <label for="poolName">Collecting for</label>
+        <input type="text" id="poolName" placeholder="e.g. Manager's farewell gift" />
+      </div>
+      <div class="cover-field">
+        <label for="target">Target amount (₹)</label>
+        <input type="number" id="target" min="0" step="1" placeholder="6000" />
+      </div>
+      <div class="cover-field wide">
+        <label for="organiser">Kept by</label>
+        <input type="text" id="organiser" placeholder="Organiser's name" />
+      </div>
+    </div>
+  </section>
+
+  <section class="leaf">
+    <div class="section-head">
+      <h2>Account holders</h2>
+      <span class="section-note" id="shareNote">— ₹0 / head</span>
+    </div>
+    <div class="member-row">
+      <input type="text" id="memberName" placeholder="Add a name" style="flex:1; min-width:160px;">
+      <button id="addMemberBtn">Add</button>
+    </div>
+    <div class="chips" id="memberChips"></div>
+    <p class="empty-note" id="memberEmptyNote">No one added yet — add everyone who's chipping in. The fair share updates as you add names.</p>
+  </section>
+
+  <section class="leaf no-rule">
+    <div class="section-head">
+      <h2>Pool status</h2>
+      <span class="section-note">have we collected enough?</span>
+    </div>
+    <div class="status-strip">
+      <div class="status-cell">
+        <div class="label">COLLECTED</div>
+        <div class="value" id="statCollected">₹0</div>
+        <div class="sub" id="statCollectedSub">of ₹0 target</div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+      <div class="status-cell">
+        <div class="label">STILL TO COLLECT</div>
+        <div class="value" id="statRemaining">₹0</div>
+        <div class="sub" id="statRemainingSub">&nbsp;</div>
+      </div>
+      <div class="status-cell">
+        <div class="label">FAIR SHARE / HEAD</div>
+        <div class="value" id="statShare">₹0</div>
+        <div class="sub" id="statShareSub">&nbsp;</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="leaf">
+    <div class="section-head">
+      <h2>Transactions</h2>
+      <span class="section-note">record every payment as it comes in</span>
+    </div>
+    <div class="entry-form">
+      <div class="field">
+        <label for="payMember">Paid by</label>
+        <select id="payMember"></select>
+      </div>
+      <div class="field">
+        <label for="payAmount">Amount (₹)</label>
+        <input type="number" id="payAmount" min="0" step="1" placeholder="0">
+      </div>
+      <div class="field">
+        <label for="payNote">Note (optional)</label>
+        <input type="text" id="payNote" placeholder="e.g. covering for Riya too">
+      </div>
+      <button id="addPaymentBtn">Record entry</button>
+    </div>
+    <table>
+      <thead><tr><th>Sl.</th><th>Particulars</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="txBody"></tbody>
+    </table>
+    <p class="empty-note" id="txEmptyNote">No transactions yet. Entries you record will list here, oldest first.</p>
+  </section>
+
+  <section class="leaf no-rule">
+    <div class="section-head">
+      <h2>Statement summary</h2>
+      <span class="section-note">how much do I still owe?</span>
+    </div>
+    <table>
+      <thead><tr><th>Name</th><th class="num">Fair share</th><th class="num">Paid</th><th>Balance</th></tr></thead>
+      <tbody id="summaryBody"></tbody>
+    </table>
+    <p class="empty-note" id="summaryEmptyNote">Add account holders above to see each person's fair share and balance.</p>
+  </section>
+
+  <section class="leaf no-rule">
+    <div class="section-head">
+      <h2>Settlement slip</h2>
+      <span class="section-note">the fewest payments to make everyone even</span>
+    </div>
+    <div class="slip-list" id="slipList"></div>
+  </section>
+
+  <footer class="leaf">
+    Served from Flask + SQLite · <button id="resetBtn" class="linklike">reset all data</button>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
